@@ -1,0 +1,13 @@
+aeo_multilingual.settings:
+  title: 'AEO Multilingual'
+  description: 'Configure AEO Multilingual settings'
+  route_name: aeo_multilingual.settings
+  parent: system.admin_config_search
+  weight: 10
+
+aeo_multilingual.dashboard:
+  title: 'AEO Multilingual'
+  description: 'View AEO scores for multilingual content'
+  route_name: aeo_multilingual.dashboard
+  parent: system.admin_reports
+  weight: 10

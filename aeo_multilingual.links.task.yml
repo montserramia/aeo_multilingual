@@ -1,0 +1,5 @@
+aeo_multilingual.node_tab:
+  route_name: aeo_multilingual.node_audit
+  base_route: entity.node.canonical
+  title: 'AEO Multilingual'
+  weight: 100

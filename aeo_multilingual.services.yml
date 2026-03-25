@@ -1,0 +1,14 @@
+services:
+  aeo_multilingual.audit_check_manager:
+    class: Drupal\aeo_multilingual\AuditCheckManager
+    parent: default_plugin_manager
+
+  aeo_multilingual.score_calculator:
+    class: Drupal\aeo_multilingual\Service\ScoreCalculator
+
+  aeo_multilingual.audit:
+    class: Drupal\aeo_multilingual\Service\AuditService
+    arguments:
+      - '@language_manager'
+      - '@aeo_multilingual.audit_check_manager'
+      - '@aeo_multilingual.score_calculator'

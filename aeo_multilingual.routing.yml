@@ -1,0 +1,24 @@
+aeo_multilingual.settings:
+  path: '/admin/config/search/aeo-multilingual'
+  defaults:
+    _form: '\Drupal\aeo_multilingual\Form\SettingsForm'
+    _title: 'AEO Multilingual Settings'
+  requirements:
+    _permission: 'administer aeo multilingual'
+
+aeo_multilingual.dashboard:
+  path: '/admin/reports/aeo-multilingual'
+  defaults:
+    _controller: '\Drupal\aeo_multilingual\Controller\AeoMultilingualDashboard::dashboard'
+    _title: 'AEO Multilingual Dashboard'
+  requirements:
+    _permission: 'view aeo multilingual reports'
+
+aeo_multilingual.node_audit:
+  path: '/node/{node}/aeo-multilingual'
+  defaults:
+    _controller: '\Drupal\aeo_multilingual\Controller\AeoMultilingualDashboard::nodeAudit'
+    _title: 'AEO Multilingual Audit'
+  requirements:
+    _permission: 'view aeo multilingual reports'
+    node: \d+

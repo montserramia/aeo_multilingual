@@ -1,0 +1,9 @@
+dashboard:
+  version: VERSION
+  css:
+    theme:
+      css/aeo-multilingual.css: {}
+  js:
+    js/aeo-multilingual-dashboard.js: {}
+  dependencies:
+    - core/drupal

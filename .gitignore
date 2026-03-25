@@ -1,0 +1,27 @@
+# IDE
+.vscode/
+.idea/
+*.code-workspace
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Drupal
+sites/*/files
+sites/*/private
+
+# Dependencies
+vendor/
+node_modules/
+
+# Build
+build/
+dist/
+
+# Logs
+*.log
+
+# Documentation
+aeo-multilingual-module-plan.md
+aeo-multilingual-setup-guide.md

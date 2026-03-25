@@ -1,0 +1,67 @@
+{#
+/**
+ * @file
+ * Default theme implementation for AEO Multilingual node tab.
+ *
+ * Available variables:
+ * - node: The node being audited.
+ * - results: Audit results keyed by langcode.
+ * - languages: Active site languages.
+ */
+#}
+<div class="aeo-node-tab">
+  <h2>{{ 'AEO Multilingual Audit'|t }}: {{ node.getTitle() }}</h2>
+
+  {% if results %}
+    {% for langcode, lang_result in results %}
+      {% set language = languages[langcode] %}
+      <div class="aeo-language-section aeo-status--{{ lang_result.status }}">
+        <h3 class="aeo-language-title">
+          {{ language.getName() }} ({{ langcode }})
+          <span class="aeo-score aeo-score--{{ lang_result.score >= 80 ? 'good' : (lang_result.score >= 50 ? 'warning' : 'poor') }}">
+            {{ lang_result.score }}/100
+          </span>
+        </h3>
+
+        <table class="aeo-checks-table">
+          <thead>
+            <tr>
+              <th>{{ 'Check'|t }}</th>
+              <th>{{ 'Score'|t }}</th>
+              <th>{{ 'Status'|t }}</th>
+              <th>{{ 'Details'|t }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for check_id, check in lang_result.checks %}
+            <tr class="aeo-check aeo-check--{{ check.status }}">
+              <td><strong>{{ check.label }}</strong></td>
+              <td>{{ check.score }}/100</td>
+              <td>
+                <span class="aeo-status-badge aeo-status-badge--{{ check.status }}">
+                  {% if check.status == 'pass' %}✅ {{ 'Pass'|t }}
+                  {% elseif check.status == 'warning' %}⚠️ {{ 'Warning'|t }}
+                  {% else %}❌ {{ 'Fail'|t }}
+                  {% endif %}
+                </span>
+              </td>
+              <td>
+                {{ check.message }}
+                {% if check.suggestions %}
+                <ul class="aeo-suggestions">
+                  {% for suggestion in check.suggestions %}
+                  <li>{{ suggestion }}</li>
+                  {% endfor %}
+                </ul>
+                {% endif %}
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    {% endfor %}
+  {% else %}
+    <p>{{ 'No audit results available. This node may not have any translations.'|t }}</p>
+  {% endif %}
+</div>

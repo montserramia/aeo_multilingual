@@ -1,0 +1,74 @@
+{#
+/**
+ * @file
+ * Default theme implementation for AEO Multilingual dashboard.
+ *
+ * Available variables:
+ * - languages: List of active site languages.
+ * - nodes: List of nodes with AEO scores per language.
+ * - summary: Average scores per language.
+ */
+#}
+<div class="aeo-multilingual-dashboard">
+  <h2>{{ 'AEO Multilingual Dashboard'|t }}</h2>
+
+  {% if summary %}
+  <div class="aeo-summary">
+    <h3>{{ 'Language Summary'|t }}</h3>
+    <div class="aeo-summary__grid">
+      {% for langcode, data in summary %}
+      <div class="aeo-summary__item">
+        <div class="aeo-summary__lang">{{ data.language }}</div>
+        <div class="aeo-score aeo-score--{{ data.average >= 80 ? 'good' : (data.average >= 50 ? 'warning' : 'poor') }}">
+          {{ data.average }}/100
+        </div>
+        <div class="aeo-summary__count">{{ data.count }} {{ 'nodes'|t }}</div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+
+  {% if nodes %}
+  <div class="aeo-table-wrapper">
+    <table class="aeo-table">
+      <thead>
+        <tr>
+          <th data-sortable>{{ 'Node'|t }}</th>
+          <th>{{ 'Type'|t }}</th>
+          {% for langcode, language in languages %}
+          <th data-sortable>{{ language.getName() }}</th>
+          {% endfor %}
+        </tr>
+      </thead>
+      <tbody>
+        {% for node in nodes %}
+        <tr>
+          <td>
+            <a href="{{ path('entity.node.canonical', {'node': node.nid}) }}">{{ node.title }}</a>
+            <small>(<a href="{{ path('aeo_multilingual.node_audit', {'node': node.nid}) }}">{{ 'audit'|t }}</a>)</small>
+          </td>
+          <td>{{ node.type }}</td>
+          {% for langcode, language in languages %}
+          <td>
+            {% if node.languages[langcode] is defined %}
+              {% set lang_data = node.languages[langcode] %}
+              {% if lang_data.score is not null %}
+                <span class="aeo-score aeo-score--{{ lang_data.score >= 80 ? 'good' : (lang_data.score >= 50 ? 'warning' : 'poor') }}">
+                  {{ lang_data.score }}
+                </span>
+              {% else %}
+                <span class="aeo-missing">{{ 'N/A'|t }}</span>
+              {% endif %}
+            {% endif %}
+          </td>
+          {% endfor %}
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <p>{{ 'No multilingual content found. Enable content types in <a href=":url">settings</a>.'|t({'%url': path('aeo_multilingual.settings')}) }}</p>
+  {% endif %}
+</div>

@@ -1,0 +1,186 @@
+/* AEO Multilingual module styles */
+
+.aeo-multilingual-dashboard {
+  max-width: 1200px;
+}
+
+/* Score badges */
+.aeo-score {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-weight: bold;
+  font-size: 0.9em;
+}
+
+.aeo-score--good {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.aeo-score--warning {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+.aeo-score--poor {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+.aeo-missing {
+  color: #aaa;
+  font-style: italic;
+}
+
+/* Summary grid */
+.aeo-summary {
+  margin-bottom: 2em;
+}
+
+.aeo-summary__grid {
+  display: flex;
+  gap: 1em;
+  flex-wrap: wrap;
+}
+
+.aeo-summary__item {
+  background: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 6px;
+  padding: 1em;
+  text-align: center;
+  min-width: 130px;
+}
+
+.aeo-summary__lang {
+  font-weight: bold;
+  margin-bottom: 0.5em;
+}
+
+.aeo-summary__count {
+  font-size: 0.85em;
+  color: #6c757d;
+  margin-top: 0.25em;
+}
+
+/* Tables */
+.aeo-table-wrapper {
+  overflow-x: auto;
+}
+
+.aeo-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.aeo-table th,
+.aeo-table td {
+  padding: 0.5em 1em;
+  border: 1px solid #dee2e6;
+  text-align: left;
+}
+
+.aeo-table th {
+  background: #f8f9fa;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.aeo-table th:hover {
+  background: #e9ecef;
+}
+
+/* Node tab */
+.aeo-language-section {
+  margin-bottom: 2em;
+  border: 1px solid #dee2e6;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.aeo-language-title {
+  display: flex;
+  align-items: center;
+  gap: 1em;
+  padding: 0.75em 1em;
+  margin: 0;
+  background: #f8f9fa;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.aeo-status--pass .aeo-language-title {
+  border-left: 4px solid #28a745;
+}
+
+.aeo-status--warning .aeo-language-title {
+  border-left: 4px solid #ffc107;
+}
+
+.aeo-status--fail .aeo-language-title {
+  border-left: 4px solid #dc3545;
+}
+
+.aeo-checks-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.aeo-checks-table th,
+.aeo-checks-table td {
+  padding: 0.5em 1em;
+  border-bottom: 1px solid #dee2e6;
+  vertical-align: top;
+}
+
+.aeo-checks-table th {
+  background: #fff;
+  font-weight: bold;
+  font-size: 0.9em;
+  color: #6c757d;
+}
+
+.aeo-check--fail {
+  background-color: #fff5f5;
+}
+
+.aeo-check--warning {
+  background-color: #fffef0;
+}
+
+/* Status badges */
+.aeo-status-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 3px;
+  font-size: 0.85em;
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+.aeo-status-badge--pass {
+  background: #d4edda;
+  color: #155724;
+}
+
+.aeo-status-badge--warning {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.aeo-status-badge--fail {
+  background: #f8d7da;
+  color: #721c24;
+}
+
+/* Suggestions */
+.aeo-suggestions {
+  margin: 0.5em 0 0;
+  padding-left: 1.5em;
+  font-size: 0.9em;
+  color: #495057;
+}
+
+.aeo-suggestions li {
+  margin-bottom: 0.25em;
+}

@@ -1,0 +1,12 @@
+administer aeo multilingual:
+  title: 'Administer AEO Multilingual settings'
+  description: 'Configure AEO Multilingual module settings'
+  restrict access: true
+
+view aeo multilingual reports:
+  title: 'View AEO Multilingual reports'
+  description: 'Access AEO Multilingual dashboard and node audits'
+
+run aeo multilingual audits:
+  title: 'Run AEO Multilingual audits'
+  description: 'Trigger AEO audits on content'
