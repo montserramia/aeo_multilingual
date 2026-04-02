@@ -19,6 +19,10 @@
     "php": ">=8.1",
     "drupal/core": "^10.2 || ^11"
   },
+  "suggest": {
+    "drupal/metatag": "^2.2 — Recommended for meta description auditing",
+    "drupal/schema_metatag": "Recommended for JSON-LD schema markup auditing"
+  },
   "require-dev": {
     "drupal/core-dev": "^10.2 || ^11"
   }
