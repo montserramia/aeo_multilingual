@@ -46,7 +46,7 @@ First stable release of AEO Multilingual — a Drupal module to optimize multili
 
 ## [1.1.0] - 2026-04-06
 
-- **ContentLengthCheck:** Ara suma paraules de tots els camps textuals (títol, body, summary, text fields personalitzats).
-- **MetaDescriptionCheck:** Ara utilitza el servei Metatag per obtenir la meta descripció resolta, incloent tokens i configuració global.
-- **SchemaMarkupCheck:** Ara analitza el JSON-LD real renderitzat, buscant la clau `inLanguage` per cada idioma.
-- **Millora general:** Les auditories són més fiables i reflecteixen exactament el que veuen els cercadors i Answer Engines.
+- **ContentLengthCheck:** Now counts words from all text fields (title, body, summary, custom text fields).
+- **MetaDescriptionCheck:** Now uses the Metatag service to get the resolved meta description, including tokens and global configuration.
+- **SchemaMarkupCheck:** Now analyzes the actual rendered JSON-LD, looking for the `inLanguage` key for each language.
+- **General improvement:** Audits are now more reliable and reflect exactly what search engines and Answer Engines see.

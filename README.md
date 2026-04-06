@@ -1,4 +1,10 @@
+
 # AEO Multilingual
+
+> **Official Drupal.org project:** [aeo_multilingual](https://www.drupal.org/project/aeo_multilingual)
+> **Maintainer:** Montserrat Serramia ([montserramia on Drupal.org](https://www.drupal.org/u/montserramia))
+
+This GitHub repository is the public mirror of the official Drupal.org project. All releases, issues, and documentation are managed on [Drupal.org](https://www.drupal.org/project/aeo_multilingual). Contributions via GitHub are welcome, but the canonical source and maintainer status are on Drupal.org.
 
 ![Drupal 10](https://img.shields.io/badge/Drupal-10-blue)
 ![Drupal 11](https://img.shields.io/badge/Drupal-11-blue)
