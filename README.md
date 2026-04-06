@@ -374,6 +374,17 @@ Special thanks to the Drupal AI Initiative and the Multilingual community for th
 ![PHP 8.1+](https://img.shields.io/badge/PHP-8.1+-blue)
 ![License](https://img.shields.io/badge/license-GPL--2.0-green)
 
+> **Note:** The first stable release is `1.0.0`. The `1.0.x-dev` branch was used for initial development and is not recommended for production. Always use a tagged stable release for live sites.
+
+---
+
+## 🆕 What’s new in 1.1
+
+- **Improved content length audit:** Now counts all text fields (title, body, summary, custom fields…), not just the body.
+- **Meta description is always accurate:** The meta description check detects the real value seen by Google, even if it comes from global Metatag config, tokens (like `{node:summary}`), or defaults.
+- **Real Schema Markup validation:** The JSON-LD check analyzes the actual rendered code, regardless of where it’s configured (global, per type, per node…).
+- **More precise audits:** Results now always reflect the real frontend output, not just what’s in the node fields.
+
 ---
 
 *Last updated: March 2026*

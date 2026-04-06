@@ -45,48 +45,64 @@ class MetaDescriptionCheck extends AuditCheckBase {
 
     $translation = $node->getTranslation($langcode);
 
-    if ($translation->hasField('field_metatag') && !$translation->get('field_metatag')->isEmpty()) {
-      $metatag_value = $translation->get('field_metatag')->value;
-      $metatags = unserialize($metatag_value, ['allowed_classes' => FALSE]);
+    // Obtenir la meta descripció resolta via metatag.manager (inclou herència global).
+    $metatag_manager = \Drupal::service('metatag.manager');
+    $tags = $metatag_manager->tagsFromEntityWithDefaults($translation);
+    $description = '';
+    
+    // $tags retorna strings, no render arrays.
+    if (!empty($tags['description'])) {
+      $description = strip_tags(trim($tags['description']));
+    }
+    
+    // Fallback: intentar via generateRawElements.
+    if ($description === '') {
+      $elements = $metatag_manager->generateRawElements($tags, $translation);
+      foreach ($elements as $element) {
+        if (isset($element['#attributes']['name']) &&
+            $element['#attributes']['name'] === 'description' &&
+            !empty($element['#attributes']['content'])) {
+          $description = strip_tags(trim($element['#attributes']['content']));
+          break;
+        }
+      }
+    }
 
-      if (!empty($metatags['description'])) {
-        $description = strip_tags($metatags['description']);
-        $length = mb_strlen($description);
-
-        if ($length >= self::MIN_LENGTH && $length <= self::MAX_LENGTH) {
-          return [
-            'score' => 100,
-            'message' => $this->t('Meta description is optimal (@length chars).', ['@length' => $length]),
-            'status' => 'pass',
-            'suggestions' => [],
-          ];
-        }
-        elseif ($length > self::MAX_LENGTH) {
-          return [
-            'score' => 70,
-            'message' => $this->t('Meta description too long (@length chars, max @max).', [
-              '@length' => $length,
-              '@max' => self::MAX_LENGTH,
-            ]),
-            'status' => 'warning',
-            'suggestions' => [
-              $this->t('Shorten meta description to @max characters or less.', ['@max' => self::MAX_LENGTH]),
-            ],
-          ];
-        }
-        else {
-          return [
-            'score' => 40,
-            'message' => $this->t('Meta description too short (@length chars, min @min).', [
-              '@length' => $length,
-              '@min' => self::MIN_LENGTH,
-            ]),
-            'status' => 'warning',
-            'suggestions' => [
-              $this->t('Expand meta description to at least @min characters.', ['@min' => self::MIN_LENGTH]),
-            ],
-          ];
-        }
+    if ($description !== '') {
+      $length = mb_strlen($description);
+      if ($length >= self::MIN_LENGTH && $length <= self::MAX_LENGTH) {
+        return [
+          'score' => 100,
+          'message' => $this->t('Meta description is optimal (@length chars).', ['@length' => $length]),
+          'status' => 'pass',
+          'suggestions' => [],
+        ];
+      }
+      elseif ($length > self::MAX_LENGTH) {
+        return [
+          'score' => 70,
+          'message' => $this->t('Meta description too long (@length chars, max @max).', [
+            '@length' => $length,
+            '@max' => self::MAX_LENGTH,
+          ]),
+          'status' => 'warning',
+          'suggestions' => [
+            $this->t('Shorten meta description to @max characters or less.', ['@max' => self::MAX_LENGTH]),
+          ],
+        ];
+      }
+      else {
+        return [
+          'score' => 40,
+          'message' => $this->t('Meta description too short (@length chars, min @min).', [
+            '@length' => $length,
+            '@min' => self::MIN_LENGTH,
+          ]),
+          'status' => 'warning',
+          'suggestions' => [
+            $this->t('Expand meta description to at least @min characters.', ['@min' => self::MIN_LENGTH]),
+          ],
+        ];
       }
     }
 
