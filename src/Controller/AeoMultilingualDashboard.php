@@ -4,6 +4,7 @@ namespace Drupal\aeo_multilingual\Controller;
 
 use Drupal\aeo_multilingual\Service\AuditService;
 use Drupal\Core\Controller\ControllerBase;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Language\LanguageManagerInterface;
 use Drupal\node\NodeInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -14,36 +15,24 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class AeoMultilingualDashboard extends ControllerBase {
 
   /**
-   * The audit service.
-   *
-   * @var \Drupal\aeo_multilingual\Service\AuditService
-   */
-  protected $auditService;
-
-  /**
-   * The language manager.
-   *
-   * @var \Drupal\Core\Language\LanguageManagerInterface
-   */
-  protected $languageManager;
-
-  /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container) {
     return new static(
       $container->get('aeo_multilingual.audit'),
-      $container->get('language_manager')
+      $container->get('language_manager'),
+      $container->get('entity_type.manager')
     );
   }
 
   /**
    * Constructs a dashboard controller.
    */
-  public function __construct(AuditService $audit_service, LanguageManagerInterface $language_manager) {
-    $this->auditService = $audit_service;
-    $this->languageManager = $language_manager;
-  }
+  public function __construct(
+    protected AuditService $auditService,
+    protected LanguageManagerInterface $languageManager,
+    protected EntityTypeManagerInterface $entityTypeManager,
+  ) {}
 
   /**
    * Dashboard page showing AEO scores for all multilingual content.
@@ -53,7 +42,8 @@ class AeoMultilingualDashboard extends ControllerBase {
     $enabled_types = $config->get('enabled_content_types') ?: [];
     $languages = $this->languageManager->getLanguages();
 
-    $query = \Drupal::entityQuery('node')
+    $storage = $this->entityTypeManager->getStorage('node');
+    $query = $storage->getQuery()
       ->accessCheck(TRUE)
       ->condition('status', 1)
       ->range(0, 50);
@@ -63,7 +53,7 @@ class AeoMultilingualDashboard extends ControllerBase {
     }
 
     $nids = $query->execute();
-    $nodes = \Drupal::entityTypeManager()->getStorage('node')->loadMultiple($nids);
+    $nodes = $storage->loadMultiple($nids);
 
     $rows = [];
     foreach ($nodes as $node) {

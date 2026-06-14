@@ -10,5 +10,3 @@ dependencies:
   - drupal:node
 
 configure: aeo_multilingual.settings
-
-project: 'aeo_multilingual'

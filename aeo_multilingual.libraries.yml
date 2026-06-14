@@ -1,5 +1,5 @@
 dashboard:
-  version: VERSION
+  version: '1.1.0'
   css:
     theme:
       css/aeo-multilingual.css: {}

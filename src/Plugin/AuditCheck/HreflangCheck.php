@@ -20,7 +20,7 @@ class HreflangCheck extends AuditCheckBase {
    * {@inheritdoc}
    */
   public function audit(NodeInterface $node, string $langcode): array {
-    $languages = \Drupal::languageManager()->getLanguages();
+    $languages = $this->languageManager->getLanguages();
     $translations = $node->getTranslationLanguages();
 
     $missing = [];

@@ -2,6 +2,7 @@
 .vscode/
 .idea/
 *.code-workspace
+.ddev/
 
 # OS
 .DS_Store
@@ -10,6 +11,11 @@ Thumbs.db
 # Drupal
 sites/*/files
 sites/*/private
+sites/default/development.services.yml
+sites/default/example.settings.local.php
+sites/default/example.sites.php
+sites/default/default.services.yml
+sites/default/default.settings.php
 
 # Dependencies
 vendor/
@@ -26,3 +32,15 @@ dist/
 aeo-multilingual-module-plan.md
 aeo-multilingual-setup-guide.md
 screenshots/AEO Multilingual Audit _ Drush Site-Install.pdf
+/.csslintrc
+/.eslintignore
+/.eslintrc.json
+/.gitattributes
+/.ht.router.php
+/.htaccess
+/INSTALL.txt
+/autoload.php
+/example.gitignore
+/index.php
+/robots.txt
+/update.php

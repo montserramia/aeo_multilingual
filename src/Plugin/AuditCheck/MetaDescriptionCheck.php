@@ -2,7 +2,10 @@
 
 namespace Drupal\aeo_multilingual\Plugin\AuditCheck;
 
+use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\node\NodeInterface;
+use Metatag\MetatagManagerInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Checks meta description for AEO optimization.
@@ -20,6 +23,50 @@ class MetaDescriptionCheck extends AuditCheckBase {
   const MAX_LENGTH = 160;
 
   /**
+   * Constructs a MetaDescriptionCheck plugin.
+   *
+   * @param array $configuration
+   *   Plugin configuration.
+   * @param string $plugin_id
+   *   Plugin ID.
+   * @param mixed $plugin_definition
+   *   Plugin definition.
+   * @param \Drupal\Core\Extension\ModuleHandlerInterface $moduleHandler
+   *   The module handler.
+   * @param \Metatag\MetatagManagerInterface|null $metatagManager
+   *   The metatag manager, or NULL if metatag is not installed.
+   */
+  public function __construct(
+    array $configuration,
+    string $plugin_id,
+    mixed $plugin_definition,
+    protected ModuleHandlerInterface $moduleHandler,
+    protected ?MetatagManagerInterface $metatagManager = NULL,
+  ) {
+    parent::__construct($configuration, $plugin_id, $plugin_definition);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(
+    ContainerInterface $container,
+    array $configuration,
+    string $plugin_id,
+    mixed $plugin_definition,
+  ): static {
+    return new static(
+      $configuration,
+      $plugin_id,
+      $plugin_definition,
+      $container->get('module_handler'),
+      $container->has('metatag.manager')
+        ? $container->get('metatag.manager')
+        : NULL,
+    );
+  }
+
+  /**
    * {@inheritdoc}
    */
   public function audit(NodeInterface $node, string $langcode): array {
@@ -32,7 +79,7 @@ class MetaDescriptionCheck extends AuditCheckBase {
       ];
     }
 
-    if (!\Drupal::moduleHandler()->moduleExists('metatag')) {
+    if (!$this->moduleHandler->moduleExists('metatag')) {
       return [
         'score' => 40,
         'message' => $this->t('Metatag module not installed. Cannot validate meta descriptions.'),
@@ -45,19 +92,19 @@ class MetaDescriptionCheck extends AuditCheckBase {
 
     $translation = $node->getTranslation($langcode);
 
-    // Obtenir la meta descripció resolta via metatag.manager (inclou herència global).
-    $metatag_manager = \Drupal::service('metatag.manager');
-    $tags = $metatag_manager->tagsFromEntityWithDefaults($translation);
+    // Get resolved description through metatag manager,
+    // including inherited defaults.
+    $tags = $this->metatagManager->tagsFromEntityWithDefaults($translation);
     $description = '';
-    
-    // $tags retorna strings, no render arrays.
+
+    // Tags returns strings, not render arrays.
     if (!empty($tags['description'])) {
       $description = strip_tags(trim($tags['description']));
     }
-    
-    // Fallback: intentar via generateRawElements.
+
+    // Fallback: inspect generated raw elements.
     if ($description === '') {
-      $elements = $metatag_manager->generateRawElements($tags, $translation);
+      $elements = $this->metatagManager->generateRawElements($tags, $translation);
       foreach ($elements as $element) {
         if (isset($element['#attributes']['name']) &&
             $element['#attributes']['name'] === 'description' &&

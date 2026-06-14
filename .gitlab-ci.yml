@@ -1,0 +1,19 @@
+image: composer:2
+
+stages:
+  - lint
+
+variables:
+  COMPOSER_CACHE_DIR: "$CI_PROJECT_DIR/.composer-cache"
+
+cache:
+  key: "$CI_COMMIT_REF_SLUG"
+  paths:
+    - .composer-cache/
+    - vendor/
+
+phpcs:
+  stage: lint
+  script:
+    - composer install --no-interaction --prefer-dist --no-progress --ignore-platform-reqs
+    - vendor/bin/phpcs --standard=Drupal --extensions=php,module,inc,install,test,profile,theme src aeo_multilingual.module

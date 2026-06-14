@@ -2,15 +2,74 @@
 
 namespace Drupal\aeo_multilingual\Plugin\AuditCheck;
 
+use Drupal\Core\Extension\ModuleHandlerInterface;
+use Drupal\Core\Language\LanguageManagerInterface;
+use Drupal\Core\Logger\LoggerChannelFactoryInterface;
+use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Plugin\PluginBase;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Base class for AEO audit check plugins.
  */
-abstract class AuditCheckBase extends PluginBase implements AuditCheckInterface {
+abstract class AuditCheckBase extends PluginBase implements AuditCheckInterface, ContainerFactoryPluginInterface {
 
   use StringTranslationTrait;
+
+  /**
+   * The module handler.
+   */
+  protected ModuleHandlerInterface $moduleHandler;
+
+  /**
+   * The language manager.
+   */
+  protected LanguageManagerInterface $languageManager;
+
+  /**
+   * Logger channel factory.
+   */
+  protected LoggerChannelFactoryInterface $loggerFactory;
+
+  /**
+   * Service container for optional services.
+   */
+  protected ContainerInterface $container;
+
+  /**
+   * Constructs an audit check plugin.
+   */
+  public function __construct(
+    array $configuration,
+    $plugin_id,
+    $plugin_definition,
+    ModuleHandlerInterface $module_handler,
+    LanguageManagerInterface $language_manager,
+    LoggerChannelFactoryInterface $logger_factory,
+    ContainerInterface $container,
+  ) {
+    parent::__construct($configuration, $plugin_id, $plugin_definition);
+    $this->moduleHandler = $module_handler;
+    $this->languageManager = $language_manager;
+    $this->loggerFactory = $logger_factory;
+    $this->container = $container;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition): static {
+    return new static(
+      $configuration,
+      $plugin_id,
+      $plugin_definition,
+      $container->get('module_handler'),
+      $container->get('language_manager'),
+      $container->get('logger.factory'),
+      $container,
+    );
+  }
 
   /**
    * {@inheritdoc}

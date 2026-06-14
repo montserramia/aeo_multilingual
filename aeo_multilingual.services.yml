@@ -12,3 +12,4 @@ services:
       - '@language_manager'
       - '@aeo_multilingual.audit_check_manager'
       - '@aeo_multilingual.score_calculator'
+      - '@logger.factory'

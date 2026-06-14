@@ -4,6 +4,7 @@ namespace Drupal\aeo_multilingual\Service;
 
 use Drupal\aeo_multilingual\AuditCheckManager;
 use Drupal\Core\Language\LanguageManagerInterface;
+use Drupal\Core\Logger\LoggerChannelFactoryInterface;
 use Drupal\node\NodeInterface;
 
 /**
@@ -12,38 +13,14 @@ use Drupal\node\NodeInterface;
 class AuditService {
 
   /**
-   * The language manager.
-   *
-   * @var \Drupal\Core\Language\LanguageManagerInterface
-   */
-  protected $languageManager;
-
-  /**
-   * The audit check plugin manager.
-   *
-   * @var \Drupal\aeo_multilingual\AuditCheckManager
-   */
-  protected $auditCheckManager;
-
-  /**
-   * The score calculator service.
-   *
-   * @var \Drupal\aeo_multilingual\Service\ScoreCalculator
-   */
-  protected $scoreCalculator;
-
-  /**
    * Constructs an AuditService object.
    */
   public function __construct(
-    LanguageManagerInterface $language_manager,
-    AuditCheckManager $audit_check_manager,
-    ScoreCalculator $score_calculator
-  ) {
-    $this->languageManager = $language_manager;
-    $this->auditCheckManager = $audit_check_manager;
-    $this->scoreCalculator = $score_calculator;
-  }
+    protected LanguageManagerInterface $languageManager,
+    protected AuditCheckManager $auditCheckManager,
+    protected ScoreCalculator $scoreCalculator,
+    protected LoggerChannelFactoryInterface $loggerFactory,
+  ) {}
 
   /**
    * Run audit on a node for all active languages.
@@ -94,7 +71,7 @@ class AuditService {
         $checks[$plugin_id] = $result;
       }
       catch (\Exception $e) {
-        \Drupal::logger('aeo_multilingual')->error('Error running audit check @id: @message', [
+        $this->loggerFactory->get('aeo_multilingual')->error('Error running audit check @id: @message', [
           '@id' => $plugin_id,
           '@message' => $e->getMessage(),
         ]);

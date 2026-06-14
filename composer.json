@@ -6,7 +6,7 @@
   "homepage": "https://www.drupal.org/project/aeo_multilingual",
   "authors": [
     {
-      "name": "Montse Ramia (montserramia)",
+      "name": "Montserrat Serramià (montserramia)",
       "homepage": "https://www.drupal.org/u/montserramia",
       "role": "Maintainer"
     }
@@ -24,6 +24,16 @@
     "drupal/schema_metatag": "Recommended for JSON-LD schema markup auditing"
   },
   "require-dev": {
-    "drupal/core-dev": "^10.2 || ^11"
+    "drupal/core-dev": "^10.2 || ^11",
+    "drupal/coder": "^8.3"
+  },
+  "config": {
+    "allow-plugins": {
+      "drupal/core-composer-scaffold": true,
+      "php-http/discovery": true,
+      "phpstan/extension-installer": true,
+      "tbachert/spi": true,
+      "dealerdirect/phpcodesniffer-composer-installer": true
+    }
   }
 }
