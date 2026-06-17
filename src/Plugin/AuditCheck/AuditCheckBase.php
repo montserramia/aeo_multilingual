@@ -18,42 +18,18 @@ abstract class AuditCheckBase extends PluginBase implements AuditCheckInterface,
   use StringTranslationTrait;
 
   /**
-   * The module handler.
-   */
-  protected ModuleHandlerInterface $moduleHandler;
-
-  /**
-   * The language manager.
-   */
-  protected LanguageManagerInterface $languageManager;
-
-  /**
-   * Logger channel factory.
-   */
-  protected LoggerChannelFactoryInterface $loggerFactory;
-
-  /**
-   * Service container for optional services.
-   */
-  protected ContainerInterface $container;
-
-  /**
    * Constructs an audit check plugin.
    */
   public function __construct(
     array $configuration,
     $plugin_id,
     $plugin_definition,
-    ModuleHandlerInterface $module_handler,
-    LanguageManagerInterface $language_manager,
-    LoggerChannelFactoryInterface $logger_factory,
-    ContainerInterface $container,
+    protected ModuleHandlerInterface $moduleHandler,
+    protected LanguageManagerInterface $languageManager,
+    protected LoggerChannelFactoryInterface $loggerFactory,
+    protected ContainerInterface $container,
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
-    $this->moduleHandler = $module_handler;
-    $this->languageManager = $language_manager;
-    $this->loggerFactory = $logger_factory;
-    $this->container = $container;
   }
 
   /**

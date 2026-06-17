@@ -3,8 +3,10 @@
 /**
  * @file
  * Hooks and callbacks for the AEO Multilingual module.
+ * 
+ * Note: As of Drupal 10+, hooks are implemented as class methods in 
+ * Drupal\aeo_multilingual\EventSubscriber\ModuleHooks
  */
-
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Core\Url;
 

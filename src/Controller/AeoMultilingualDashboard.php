@@ -19,20 +19,9 @@ class AeoMultilingualDashboard extends ControllerBase {
    */
   public static function create(ContainerInterface $container) {
     return new static(
-      $container->get('aeo_multilingual.audit'),
-      $container->get('language_manager'),
-      $container->get('entity_type.manager')
+      $container->get('aeo_multilingual.audit')
     );
   }
-
-  /**
-   * Constructs a dashboard controller.
-   */
-  public function __construct(
-    protected AuditService $auditService,
-    protected LanguageManagerInterface $languageManager,
-    protected EntityTypeManagerInterface $entityTypeManager,
-  ) {}
 
   /**
    * Dashboard page showing AEO scores for all multilingual content.
@@ -40,9 +29,9 @@ class AeoMultilingualDashboard extends ControllerBase {
   public function dashboard(): array {
     $config = $this->config('aeo_multilingual.settings');
     $enabled_types = $config->get('enabled_content_types') ?: [];
-    $languages = $this->languageManager->getLanguages();
+    $languages = $this->languageManager()->getLanguages();
 
-    $storage = $this->entityTypeManager->getStorage('node');
+    $storage = $this->entityTypeManager()->getStorage('node');
     $query = $storage->getQuery()
       ->accessCheck(TRUE)
       ->condition('status', 1)
@@ -99,7 +88,7 @@ class AeoMultilingualDashboard extends ControllerBase {
    * Node audit page showing detailed AEO scores per language.
    */
   public function nodeAudit(NodeInterface $node): array {
-    $languages = $this->languageManager->getLanguages();
+    $languages = $this->languageManager()->getLanguages();
     $results = $this->auditService->auditNode($node);
 
     return [
