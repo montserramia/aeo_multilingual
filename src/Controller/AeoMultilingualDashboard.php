@@ -4,8 +4,6 @@ namespace Drupal\aeo_multilingual\Controller;
 
 use Drupal\aeo_multilingual\Service\AuditService;
 use Drupal\Core\Controller\ControllerBase;
-use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\Core\Language\LanguageManagerInterface;
 use Drupal\node\NodeInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -13,6 +11,13 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * Controller for AEO Multilingual dashboard and node audit pages.
  */
 class AeoMultilingualDashboard extends ControllerBase {
+
+  /**
+   * Constructs an AeoMultilingualDashboard controller.
+   */
+  public function __construct(
+    protected AuditService $auditService,
+  ) {}
 
   /**
    * {@inheritdoc}

@@ -13,8 +13,3 @@ services:
       - '@aeo_multilingual.audit_check_manager'
       - '@aeo_multilingual.score_calculator'
       - '@logger.factory'
-      
-  aeo_multilingual.module_hooks:
-    class: Drupal\aeo_multilingual\EventSubscriber\ModuleHooks
-    tags:
-      - { name: hook_implementations }

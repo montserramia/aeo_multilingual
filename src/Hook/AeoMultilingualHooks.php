@@ -1,24 +1,26 @@
 <?php
 
-namespace Drupal\aeo_multilingual\EventSubscriber;
+declare(strict_types=1);
 
+namespace Drupal\aeo_multilingual\Hook;
+
+use Drupal\Core\Hook\Attribute\Hook;
 use Drupal\Core\Routing\RouteMatchInterface;
-use Drupal\Core\Url;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Drupal\Core\Hook\HookImplementationInterface;
+use Drupal\Core\Url;
 
 /**
- * Class implementing module hooks as methods.
+ * Hook implementations for the AEO Multilingual module.
  */
-class ModuleHooks implements HookImplementationInterface {
-  
+class AeoMultilingualHooks {
+
   use StringTranslationTrait;
 
   /**
    * Implements hook_help().
    */
-  public function hookHelp($route_name, RouteMatchInterface $route_match) {
+  #[Hook('help')]
+  public function help(string $route_name, RouteMatchInterface $route_match): ?string {
     switch ($route_name) {
       case 'help.page.aeo_multilingual':
         $output = '<h3>' . $this->t('About') . '</h3>';
@@ -32,12 +34,14 @@ class ModuleHooks implements HookImplementationInterface {
         $output .= '</dl>';
         return $output;
     }
+    return NULL;
   }
 
   /**
    * Implements hook_theme().
    */
-  public function hookTheme($existing, $type, $theme, $path) {
+  #[Hook('theme')]
+  public function theme($existing, $type, $theme, $path): array {
     return [
       'aeo_multilingual_dashboard' => [
         'variables' => [

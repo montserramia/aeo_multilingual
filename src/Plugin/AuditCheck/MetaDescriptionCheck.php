@@ -3,8 +3,10 @@
 namespace Drupal\aeo_multilingual\Plugin\AuditCheck;
 
 use Drupal\Core\Extension\ModuleHandlerInterface;
+use Drupal\Core\Language\LanguageManagerInterface;
+use Drupal\Core\Logger\LoggerChannelFactoryInterface;
+use Drupal\metatag\MetatagManagerInterface;
 use Drupal\node\NodeInterface;
-use Metatag\MetatagManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -24,42 +26,40 @@ class MetaDescriptionCheck extends AuditCheckBase {
 
   /**
    * Constructs a MetaDescriptionCheck plugin.
-   *
-   * @param array $configuration
-   *   Plugin configuration.
-   * @param string $plugin_id
-   *   Plugin ID.
-   * @param mixed $plugin_definition
-   *   Plugin definition.
-   * @param \Drupal\Core\Extension\ModuleHandlerInterface $moduleHandler
-   *   The module handler.
-   * @param \Metatag\MetatagManagerInterface|null $metatagManager
-   *   The metatag manager, or NULL if metatag is not installed.
    */
   public function __construct(
     array $configuration,
-    string $plugin_id,
-    mixed $plugin_definition,
-    protected ModuleHandlerInterface $moduleHandler,
+    $plugin_id,
+    $plugin_definition,
+    ModuleHandlerInterface $module_handler,
+    LanguageManagerInterface $language_manager,
+    LoggerChannelFactoryInterface $logger_factory,
+    ContainerInterface $container,
     protected ?MetatagManagerInterface $metatagManager = NULL,
   ) {
-    parent::__construct($configuration, $plugin_id, $plugin_definition);
+    parent::__construct(
+      $configuration,
+      $plugin_id,
+      $plugin_definition,
+      $module_handler,
+      $language_manager,
+      $logger_factory,
+      $container,
+    );
   }
 
   /**
    * {@inheritdoc}
    */
-  public static function create(
-    ContainerInterface $container,
-    array $configuration,
-    string $plugin_id,
-    mixed $plugin_definition,
-  ): static {
+  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition): static {
     return new static(
       $configuration,
       $plugin_id,
       $plugin_definition,
       $container->get('module_handler'),
+      $container->get('language_manager'),
+      $container->get('logger.factory'),
+      $container,
       $container->has('metatag.manager')
         ? $container->get('metatag.manager')
         : NULL,
@@ -92,17 +92,13 @@ class MetaDescriptionCheck extends AuditCheckBase {
 
     $translation = $node->getTranslation($langcode);
 
-    // Get resolved description through metatag manager,
-    // including inherited defaults.
     $tags = $this->metatagManager->tagsFromEntityWithDefaults($translation);
     $description = '';
 
-    // Tags returns strings, not render arrays.
     if (!empty($tags['description'])) {
       $description = strip_tags(trim($tags['description']));
     }
 
-    // Fallback: inspect generated raw elements.
     if ($description === '') {
       $elements = $this->metatagManager->generateRawElements($tags, $translation);
       foreach ($elements as $element) {
