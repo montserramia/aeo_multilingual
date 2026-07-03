@@ -2,7 +2,7 @@ name: 'AEO Multilingual'
 type: module
 description: 'Optimize multilingual Drupal sites for Answer Engine Optimization (AEO) and AI citations.'
 package: 'SEO / AEO'
-core_version_requirement: ^10.2 || ^11
+core_version_requirement: ^10.3 || ^11
 
 dependencies:
   - drupal:language
