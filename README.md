@@ -6,7 +6,7 @@
 
 This GitHub repository is the public mirror of the official Drupal.org project. All releases, issues, and documentation are managed on [Drupal.org](https://www.drupal.org/project/aeo_multilingual). Contributions via GitHub are welcome, but the canonical source and maintainer status are on Drupal.org.
 
-![Drupal 10](https://img.shields.io/badge/Drupal-10-blue)
+![Drupal 10.3+](https://img.shields.io/badge/Drupal-10.3%2B-blue)
 ![Drupal 11](https://img.shields.io/badge/Drupal-11-blue)
 ![PHP 8.1+](https://img.shields.io/badge/PHP-8.1+-blue)
 ![License](https://img.shields.io/badge/license-GPL--2.0-green)
@@ -36,7 +36,7 @@ This module solves a critical gap: existing AEO tools don't account for multilin
 ## 📦 Requirements
 
 ### Core Dependencies
-- Drupal 10.2+ or Drupal 11.x
+- Drupal 10.3+ or Drupal 11.x
 - PHP 8.1+
 - Core modules: `language`, `content_translation`, `node`
 
@@ -375,7 +375,7 @@ Special thanks to the Drupal AI Initiative and the Multilingual community for th
 
 ## 📈 Badges
 
-![Drupal 10](https://img.shields.io/badge/Drupal-10-blue)
+![Drupal 10.3+](https://img.shields.io/badge/Drupal-10.3%2B-blue)
 ![Drupal 11](https://img.shields.io/badge/Drupal-11-blue)
 ![PHP 8.1+](https://img.shields.io/badge/PHP-8.1+-blue)
 ![License](https://img.shields.io/badge/license-GPL--2.0-green)
