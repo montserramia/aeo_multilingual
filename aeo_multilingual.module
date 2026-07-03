@@ -4,3 +4,28 @@
  * @file
  * Hook implementations for the AEO Multilingual module.
  */
+
+use Drupal\aeo_multilingual\Hook\AeoMultilingualHooks;
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ *
+ * Backwards-compatible wrapper for Drupal 10.3 and 11.0.
+ */
+function aeo_multilingual_help(string $route_name, RouteMatchInterface $route_match): ?string {
+  /** @var \Drupal\aeo_multilingual\Hook\AeoMultilingualHooks $hooks */
+  $hooks = \Drupal::service('class_resolver')->getInstanceFromDefinition(AeoMultilingualHooks::class);
+  return $hooks->help($route_name, $route_match);
+}
+
+/**
+ * Implements hook_theme().
+ *
+ * Backwards-compatible wrapper for Drupal 10.3 and 11.0.
+ */
+function aeo_multilingual_theme($existing, $type, $theme, $path): array {
+  /** @var \Drupal\aeo_multilingual\Hook\AeoMultilingualHooks $hooks */
+  $hooks = \Drupal::service('class_resolver')->getInstanceFromDefinition(AeoMultilingualHooks::class);
+  return $hooks->theme($existing, $type, $theme, $path);
+}
