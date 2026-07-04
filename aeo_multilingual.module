@@ -6,6 +6,7 @@
  */
 
 use Drupal\aeo_multilingual\Hook\AeoMultilingualHooks;
+use Drupal\Core\Hook\Attribute\LegacyHook;
 use Drupal\Core\Routing\RouteMatchInterface;
 
 /**
@@ -13,6 +14,7 @@ use Drupal\Core\Routing\RouteMatchInterface;
  *
  * Backwards-compatible wrapper for Drupal 10.3 and 11.0.
  */
+#[LegacyHook]
 function aeo_multilingual_help(string $route_name, RouteMatchInterface $route_match): ?string {
   /** @var \Drupal\aeo_multilingual\Hook\AeoMultilingualHooks $hooks */
   $hooks = \Drupal::service('class_resolver')->getInstanceFromDefinition(AeoMultilingualHooks::class);
@@ -24,6 +26,7 @@ function aeo_multilingual_help(string $route_name, RouteMatchInterface $route_ma
  *
  * Backwards-compatible wrapper for Drupal 10.3 and 11.0.
  */
+#[LegacyHook]
 function aeo_multilingual_theme($existing, $type, $theme, $path): array {
   /** @var \Drupal\aeo_multilingual\Hook\AeoMultilingualHooks $hooks */
   $hooks = \Drupal::service('class_resolver')->getInstanceFromDefinition(AeoMultilingualHooks::class);
